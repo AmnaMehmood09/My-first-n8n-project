@@ -1,0 +1,120 @@
+{
+  "name": "Random Advice Fetcher",
+  "nodes": [
+    {
+      "parameters": {},
+      "type": "n8n-nodes-base.manualTrigger",
+      "typeVersion": 1,
+      "position": [
+        400,
+        1024
+      ],
+      "id": "8ae79919-df08-46be-815d-7e267f27f3f3",
+      "name": "When clicking ‘Execute workflow’"
+    },
+    {
+      "parameters": {
+        "url": "https://api.adviceslip.com/advice",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.5,
+      "position": [
+        416,
+        176
+      ],
+      "id": "0d247535-7f8b-4311-86a0-c023175e494a",
+      "name": "HTTP Request"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "cc37a23f-6102-4eb6-a3be-d6b5958570dd",
+              "name": "advice",
+              "value": "={{ $json.slip.advice }}",
+              "type": "string"
+            },
+            {
+              "id": "c08c4204-dfd8-453f-ac39-c818384b0c80",
+              "name": "advice_id",
+              "value": "={{ $json.slip.id }}",
+              "type": "number"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.5,
+      "position": [
+        640,
+        176
+      ],
+      "id": "676c2971-9803-4750-9b7f-79160e1b289b",
+      "name": "Edit Fields"
+    },
+    {
+      "parameters": {
+        "rule": {
+          "interval": [
+            {
+              "triggerAtHour": 9
+            }
+          ]
+        }
+      },
+      "type": "n8n-nodes-base.scheduleTrigger",
+      "typeVersion": 1.4,
+      "position": [
+        192,
+        176
+      ],
+      "id": "69f8e70a-d722-4513-a187-3bc239c501ad",
+      "name": "Schedule Trigger"
+    }
+  ],
+  "pinData": {},
+  "connections": {
+    "When clicking ‘Execute workflow’": {
+      "main": [
+        []
+      ]
+    },
+    "HTTP Request": {
+      "main": [
+        [
+          {
+            "node": "Edit Fields",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Schedule Trigger": {
+      "main": [
+        [
+          {
+            "node": "HTTP Request",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": true,
+  "settings": {
+    "executionOrder": "v1",
+    "binaryMode": "separate"
+  },
+  "versionId": "ad96c5f5-263b-4193-95a8-e6e14416c7c6",
+  "meta": {
+    "instanceId": "937b8bf4726b777de25a89eca662699dd3951228d7940386e6d12d37ade368c3"
+  },
+  "nodeGroups": [],
+  "id": "UqUdcCQSxiAID0Zt",
+  "tags": []
+}
